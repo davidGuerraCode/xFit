@@ -83,7 +83,7 @@
               v-layout(row-sm column-xs justify-end)
                 v-flex(class="text-xs-center text-sm-right")
                   v-btn(class="teal accent-4 white--text" type="submit") Guardar  
-    pre {{ Gastos }}
+    //- pre {{ Gastos }}
 </template>
 
 <script>
