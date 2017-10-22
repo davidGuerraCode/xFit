@@ -1,4 +1,5 @@
 <template lang="pug">
+v-content
   v-container(fluid)
     v-layout(justify-space-between)
       v-layout(align-center)
@@ -29,8 +30,8 @@
             :height="500"
           )
     v-layout(justify-center)
-      v-flex(md4)
-        v-card(class="pa-1 mt-3")
+      v-flex(md3)
+        v-card(class="pa-2 mt-3")
           v-menu(
             lazy
             :close-on-content-click="false"
@@ -46,20 +47,20 @@
               label="Desde"
               v-model="fecha.desde"
               class="input-group"
-              prepend-icon="event" 
+              prepend-icon="event"
               readonly
             )
             v-date-picker(
               v-model="fecha.desde"
               autosave
-              no-tile
+              no-title
               scrollable actions)
               template(scope="{ save, cancel }")
                 v-card-actions
-                  v-btn(flat primary @click.native="cancel()") Cancelar
-                  v-btn(flat primary @click.native="save()") Guardar
-      v-flex(md4)
-        v-card(class="pa-1 mt-3")
+                  v-btn(flat color="error" @click.native="cancel()") Cancelar
+                  v-btn(flat color="primary" @click.native="save()") Guardar
+      v-flex(md3)
+        v-card(class="pa-2 mt-3")
           v-menu(
             lazy
             :close-on-content-click="false"
@@ -75,18 +76,18 @@
               label="Hasta"
               v-model="fecha.hasta"
               class="input-group"
-              prepend-icon="event" 
+              prepend-icon="event"
               readonly
             )
             v-date-picker(
               v-model="fecha.hasta"
               autosave
-              no-tile
+              no-title
               scrollable actions)
               template(scope="{ save, cancel }")
                 v-card-actions
-                  v-btn(flat primary @click.native="cancel()") Cancelar
-                  v-btn(flat primary @click.native="save()") Guardar
+                  v-btn(flat color="error" @click.native="cancel()") Cancelar
+                  v-btn(flat color="primary" @click.native="save()") Guardar
     v-layout(justify-center)
       v-btn(type="submit" @click.native.stop="consulta()" class="mt-3 teal accent-4 white--text") Enviar
 </template>
@@ -99,8 +100,8 @@ export default {
       menu: false,
       menu2: false,
       fecha: {
-        desde: '',
-        hasta: ''
+        desde: null,
+        hasta: null
       }
     }
   },
@@ -122,5 +123,5 @@ export default {
 </script>
 
 <style>
-	
+
 </style>

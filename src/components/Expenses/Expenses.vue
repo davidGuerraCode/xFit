@@ -1,4 +1,5 @@
 <template lang="pug">
+v-content
   v-container(fluid)
     v-layout(justify-center)
       v-card
@@ -6,23 +7,22 @@
           h3(class="teal--text text--accent-4") Gastos
         div(class="card-content" id="listaProductos")
             v-data-table(
-                v-bind:headers="headers"
-                :items="items"
-                hide-actions
-                class="elevation-1")
+              v-bind:headers="headers"
+              :items="items"
+              expand
+              hide-actions
+              class="elevation-1 text-md-right"
+            )
               template(slot="items" scope="props")
-                  td {{props.item.tipoGasto}}
-                  td(class="text-xs-center") {{props.item.subClasificacion}}
-                  td(class="text-xs-center") {{props.item.cantidad}}
-                  td(class="text-xs-center") {{props.item.acreedorPago}}
-                  td(class="text-xs-center") {{props.item.fechaPago}}
-                  td(class="text-xs-center") {{props.item.descripcion}}
-
+                td {{props.item.tipoGasto}}
+                td(class="") {{props.item.subClasificacion}}
+                td(class="") {{props.item.cantidad}}
+                td(class="") {{props.item.acreedorPago}}
+                td(class="") {{props.item.fechaPago}}
+                td(class="") {{props.item.descripcion}}
 </template>
 
 <script>
-// import {conexref} from '@/assets/firebase'
-// import {expensesRef} from '@/assets/dbAtreusFit.js'
 // import { mapGetters } from 'vuex'
 export default {
   data () {
@@ -53,5 +53,5 @@ export default {
 </script>
 
 <style>
-	
+
 </style>

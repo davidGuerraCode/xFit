@@ -1,8 +1,8 @@
 <template lang="pug">
-  v-app(height="415px" id="e3" standalone)
-    v-navigation-drawer(persistent absolute height="100%" clipped enable-resize-watcher v-model="dibujar" :mini-variant.sync="mini" overflow class="blue-grey darken-3")
+  v-app(height="100%" id="e3" standalone)
+    v-navigation-drawer(persistent app dark disable-route-watcher clipped enable-resize-watcher v-model="dibujar" :mini-variant.sync="mini" class="blue-grey darken-3")
       v-list(dense class="pa-0 blue-grey darken-3")
-        v-list-tile(avatar tag="div")
+        v-list-tile(avatar tag="div" class="mt-3")
           v-list-tile-avatar
             img(src="https://randomuser.me/api/portraits/men/85.jpg")
           v-list-tile-content
@@ -34,8 +34,8 @@
               v-icon(class="teal--text text--accent-4") {{ item.icon }}
             v-list-tile-content
               v-list-tile-title(class="white--text hola") {{ item.text }}
-    v-toolbar(class="blue-grey darken-3 white--text")
-      v-toolbar-side-icon(class="white--text" v-on:click.native.stop="dibujar = !dibujar")
+    v-toolbar(class="blue-grey darken-3 white--text" clipped-left app dense fixed)
+      v-toolbar-side-icon(class="white--text" v-on:click.stop="dibujar = !dibujar")
       v-toolbar-items
         v-btn(flat)
           img(src="static/img/AtreusLogo.png" class="logo")
@@ -61,7 +61,7 @@ export default {
       dibujar: true,
       mini: true,
       items: [
-        { icon: 'list', text: 'Resumen' },
+        { icon: 'list', text: 'Resumen', link: '/' },
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',

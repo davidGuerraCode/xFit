@@ -14,7 +14,8 @@ const actions = {
       fechaVenta: payload.fechaVenta,
       nombreComprador: payload.nombreComprador,
       cedulaComprador: payload.cedulaComprador,
-      selectedArticles: payload.selectedArticles
+      selectedArticles: payload.selectedArticles,
+      metodoPago: payload.metodoPago
     }
     firebase.database().ref('venta').push(datos)
   },
