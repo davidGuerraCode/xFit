@@ -15,7 +15,8 @@ const actions = {
       nombreComprador: payload.nombreComprador,
       cedulaComprador: payload.cedulaComprador,
       selectedArticles: payload.selectedArticles,
-      metodoPago: payload.metodoPago
+      metodoPago: payload.metodoPago,
+      totalPagar: payload.totalPagar
     }
     firebase.database().ref('venta').push(datos)
   },
@@ -30,11 +31,12 @@ const actions = {
           nombre: datos[key].nombre,
           cantidad: datos[key].cantidad,
           costoUnidad: datos[key].costoUnidad,
+          precioReferencia: datos[key].precioReferencia,
           tipoProducto: datos[key].tipoProducto
         })
       }
       commit('showInventary', items)
-      console.log(items)
+      // console.log(items)
     })
     .catch(error => {
       console.log(error)
@@ -45,7 +47,7 @@ const actions = {
 const mutations = {
   showInventary (state, payload) {
     state.items = payload
-    console.log(state.items)
+    // console.log(state.items)
   }
 }
 

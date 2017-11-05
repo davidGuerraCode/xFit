@@ -111,7 +111,7 @@ v-content
                       )
                     v-flex(md3 sm3 xs10)
                       v-text-field(
-                        label="Precio de Referencia"
+                        label="Precio de Venta"
                         class="input-group"
                         prepend-icon="attach_money"
                         type="number"
@@ -203,6 +203,8 @@ export default {
         descripcion: this.Inventario.descripcion
       }
       this.$store.dispatch('addProduct', product)
+      this.$store.dispatch('getLastProduct')
+      // this.$store.dispatch('registryPassiveNode')
       this.clear()
     },
     onLoandFile () {

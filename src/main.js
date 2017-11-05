@@ -4,10 +4,12 @@ import App from './App'
 import router from './router'
 import VueFire from 'vuefire'
 import store from './Store'
+import moment from 'moment'
 import * as firebase from 'firebase'
 import Chart from '@/components/Charts/statisticsChart.js'
 
 Vue.use(VueFire)
+Vue.use(moment)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 

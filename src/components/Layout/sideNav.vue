@@ -2,7 +2,7 @@
   v-app(height="100%" id="e3" standalone)
     v-navigation-drawer(persistent app dark disable-route-watcher clipped enable-resize-watcher v-model="dibujar" :mini-variant.sync="mini" class="blue-grey darken-3")
       v-list(dense class="pa-0 blue-grey darken-3")
-        v-list-tile(avatar tag="div" class="mt-3")
+        v-list-tile(avatar tag="div" class="mt-2 pb-2")
           v-list-tile-avatar
             img(src="https://randomuser.me/api/portraits/men/85.jpg")
           v-list-tile-content
@@ -10,6 +10,7 @@
           v-list-tile-action
             v-btn(dark icon @click.native.stop="mini = !mini")
               v-icon chevron_left
+        v-divider
         template(v-for="(item, i) in items")
           v-layout(row v-if="item.heading" align-center :key="i")
             v-flex(xs6)

@@ -24,12 +24,26 @@ const actions = {
     }
     firebase.database().ref('inventario').push(product)
   },
+  updateProduct ({ commit }, payload) {
+    // console.log(payload)
+    let items
+    payload.map((product) => {
+      items = {
+        cantidad: product.cantidad,
+        key: product.idArticulo
+      }
+      console.log(items)
+      firebase.database().ref('inventario').child(items.key).update({cantidad: items.cantidad})
+    })
+    // firebase.database().ref('inventario/cantidad').push(items)
+  },
   getAllProducts ({ commit }) {
     firebase.database().ref('inventario').once('value').then(data => {
       const items = []
       const datos = data.val()
       for (let key in datos) {
         items.push({
+          id: key,
           nombre: datos[key].nombre,
           cantidad: datos[key].cantidad,
           precioCompra: datos[key].precioCompra,

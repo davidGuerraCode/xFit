@@ -6,9 +6,10 @@ v-content
       v-flex(xs12)
         v-dialog(v-model="dialog" persistent max-width="50%")
           v-btn(
-            color="light-blue accent-4"
+            color="cyan accent-4"
             slot="activator"
             dark
+            @click="calculoTotal()"
             absolute
             style="bottom: 1rem"
             right
@@ -24,7 +25,7 @@ v-content
                   //- Aca se muestran los elementos seleccionados en los items de los productos, formulario que permitira terminar la compra
                   v-flex(xs12)
                       v-card
-                        v-toolbar(class="blue" dark)
+                        v-toolbar(class="cyan accent-4" dark)
                           v-icon(class="white--text") add_shopping_cart
                           v-toolbar-title Carrito de Compra
                           v-spacer
@@ -34,10 +35,10 @@ v-content
                               v-list-tile-content
                                 v-list-tile-title {{ selec.nombre }}
                                 //- v-list-tile-sub-title(class="grey--text text--darken-4") {{ selec.precioCompra }}
-                                v-list-tile-sub-title {{ selec.cantidad }}
+                                v-list-tile-sub-title {{ selec.cuenta }}
                               v-list-tile-action
-                                v-chip(class="primary white--text")
-                                  v-list-tile-title {{ selec.costoUnidad }}
+                                v-chip(class="primary white--text" color="cyan accent-4")
+                                  v-list-tile-title {{ selec.precioReferencia * selec.cuenta }}
                                 v-list-tile-sub-title {{ selec.tipoProducto }}
                           v-list-tile()
                             v-list-tile-action
@@ -63,12 +64,12 @@ v-content
           v-model="alert"
           transition="slide-y-reverse-transition"
         )
-          |Su compra fué registrada con exito.
-    v-layout(row wrap justify-space-between )
-      v-flex(xs7 )
+          |La venta fué registrada con exito.
+    v-layout(row justify-space-between )
+      v-flex(xs8 class="mr-3")
         template
           v-tabs(dark v-model="active")
-            v-tabs-bar(class="blue-grey darken-3")
+            v-tabs-bar(class="cyan darken-1")
               v-tabs-item(
                 v-for="tab in tabs"
                 :key="tab"
@@ -76,7 +77,7 @@ v-content
               )
                 div(@click="itemMarcado(tab, $event)" style="width: 100%; height: 100%" class="pt-3")
                   | {{ tab }}
-              v-tabs-slider(class="teal accent-4")
+              v-tabs-slider(class="amber accent-3")
             v-tabs-content(
               v-for="tab in tabs"
               :key="tab"
@@ -100,14 +101,21 @@ v-content
                             v-checkbox(
                               color="primary"
                               hide-details
+                              :disabled="isEqualsToCero(props.item.cantidad)"
                               v-model="props.selected"
                             )
                           td(class="text-xs-right") {{props.item.nombre}}
                           td(class="text-xs-right") {{props.item.cantidad}}
                           td(class="text-xs-right") {{props.item.costoUnidad}}
+                          td(class="text-xs-center") 
+                            v-btn(flat id="menos" :disabled="isEqualsToCero(props.item.cantidad, props.item.cuenta)" class="ma-0" icon color="cyan accent-4" v-on:click="incrementArticulo(props.item.idArticulo,'decrement')")
+                              v-icon() remove
+                            span {{ props.item.cuenta }}
+                            v-btn(flat icon color="cyan accent-4" :disabled="isEqualsToCero(props.item.cantidad)" class="ma-0" v-on:click="incrementArticulo(props.item.idArticulo,'increment')")
+                              v-icon() add
       v-flex(xs4)
         v-card
-          v-toolbar(class="blue-grey darken-3" dark dense)
+          v-toolbar(class="cyan darken-1" dark dense)
             v-icon(class="white--text") add_shopping_cart
             v-toolbar-title Datos de la Venta
           main
@@ -180,6 +188,7 @@ export default {
   data () {
     return {
       valid: true,
+      valor: 4,
       tabs: ['Suplementos', 'Vestimenta', 'Cafetín', 'Equipos Deportivos'],
       // Acá se almacenan los valores del select para el metedo de pago
       metodosPago: [
@@ -197,8 +206,10 @@ export default {
       active: null,
       // Variables que almacenan valores de los elementos en el carrito de compras
       valorElemento: [],
+      cantidadElemento: [],
       totalPagar: 0,
-      //
+      // Valor que almacena la cantidad de articulos por productos
+      cantidadArticulos: 0,
       search: '',
       // Varibles del formulario
       fechaVenta: null,
@@ -219,8 +230,9 @@ export default {
         value: 'nombre'
       },
       { text: 'Nombre', value: 'nombre' },
-      { text: 'Cantidad', value: 'cantidad' },
-      { text: 'Costo x Unidad', value: 'costoUnidad' }
+      { text: 'Cantidad Disponible', value: 'cantidad' },
+      { text: 'Costo x Unidad', value: 'costoUnidad' },
+      { text: 'Cantidad Articulo', value: '' }
       ]
     }
   },
@@ -228,15 +240,44 @@ export default {
     submit () {
       if (this.$refs.form.validate()) {
         this.newSale()
+        this.clear()
       }
+    },
+    clear () {
+      this.$refs.form.reset()
     },
     next () {
       this.active = this.tabs[(this.tabs.indexOf(this.active) + 1) % this.tabs.length]
+    },
+    isEqualsToCero (cantidad, cuenta) {
+      if (parseInt(cuenta) > 0) {
+        return false
+      }
+      if (parseInt(cantidad) === 0 || parseInt(cuenta) === 0) {
+        return true
+      }
     },
     itemMarcado: function (tabMarcado, event) {
       // now we have access to the native event
       if (event) event.preventDefault()
       this.filtrarItem = tabMarcado
+    },
+    incrementArticulo (id, opcion) {
+      for (let val in this.items) {
+        if (!this.items[val].cuenta) {
+          this.items[val].cuenta = 0
+        }
+        if (this.items[val].idArticulo === id) {
+          if (opcion === 'increment') {
+            this.items[val].cantidad--
+            this.items[val].cuenta++
+          }
+          if (opcion === 'decrement') {
+            this.items[val].cantidad++
+            this.items[val].cuenta--
+          }
+        }
+      }
     },
     newSale () {
       const value = {
@@ -244,23 +285,39 @@ export default {
         nombreComprador: this.nombreComprador,
         cedulaComprador: this.cedulaComprador,
         selectedArticles: this.selected,
-        metodoPago: this.tipoPago
+        metodoPago: this.tipoPago,
+        totalPagar: this.totalPagar
       }
       console.log('venta cargada con exito')
       this.$store.dispatch('addSale', value)
       this.alert = true
       this.dialog = false
+      // console.log(this.selected[0].cantidad)
+      this.updateProduct(this.selected)
+    },
+    updateProduct (product) {
+      // console.log('ejcutado')
+      this.$store.dispatch('updateProduct', product)
+    },
+    calculoTotal () {
+      this.totalPagar = 0
+      this.valorElemento.length = 0
+      for (let valor in this.selected) {
+        this.valorElemento.push(parseFloat(this.selected[valor].precioReferencia) * parseFloat(this.selected[valor].cuenta))
+      }
+      for (let costo in this.valorElemento) {
+        this.totalPagar += parseFloat(this.valorElemento[costo])
+      }
     }
   },
   watch: {
     selected (value) {
+      // console.log(value)
       this.valorElemento.length = 0
-      for (let valor in value) {
-        this.valorElemento.push(parseFloat(value[valor].costoUnidad))
-      }
-      this.totalPagar = 0
-      for (let costo in this.valorElemento) {
-        this.totalPagar = parseFloat(this.totalPagar) + parseFloat(this.valorElemento[costo])
+      for (let val in this.items) {
+        if (!this.items[val].cuenta) {
+          this.items[val].cuenta = 0
+        }
       }
     }
   },
