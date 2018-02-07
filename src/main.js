@@ -2,26 +2,26 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
-import VueFire from 'vuefire'
 import store from './Store'
 import moment from 'moment'
-import * as firebase from 'firebase'
-import Chart from '@/components/Charts/statisticsChart.js'
 
-Vue.use(VueFire)
+import numbersPlugin from '@/plugins/numbersPlugin.js'
+// import Chart from '@/components/Charts/statisticsChart.js'
+
+Vue.use(numbersPlugin)
 Vue.use(moment)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
-Vue.component('chart-statistic', Chart)
+// Vue.component('chart-statistic', Chart)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   store,
   router,
-  render: h => h(App),
-  created () {
+  render: h => h(App)
+  /* created () {
     firebase.initializeApp({
       apiKey: 'AIzaSyAlGu2jVsYdilTTFI8o9TYs6oDGwiesYVI',
       authDomain: 'atreusfit.firebaseapp.com',
@@ -30,5 +30,5 @@ new Vue({
       storageBucket: 'atreusfit.appspot.com',
       messagingSenderId: '310643520107'
     })
-  }
+  } */
 })

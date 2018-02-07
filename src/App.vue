@@ -11,6 +11,9 @@ export default {
   data () {
     return {
     }
+  },
+  created () {
+    console.log(this.$store.state.db)
   }
 }
 </script>

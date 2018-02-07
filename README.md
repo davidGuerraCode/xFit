@@ -1,4 +1,4 @@
-# atreusfit
+# Atreusfit
 
 > A Vue.js project
 

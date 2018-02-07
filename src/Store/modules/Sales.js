@@ -1,45 +1,50 @@
-import * as firebase from 'firebase'
-
 const state = {
   items: []
 }
 
 const getters = {
-  allInventary: state => state.items
+  allInventary: state => state.items,
+  saleId: state => state.saleId
 }
 
 const actions = {
-  addSale ({ commit }, payload) {
-    const datos = {
-      fechaVenta: payload.fechaVenta,
-      nombreComprador: payload.nombreComprador,
-      cedulaComprador: payload.cedulaComprador,
-      selectedArticles: payload.selectedArticles,
-      metodoPago: payload.metodoPago,
-      totalPagar: payload.totalPagar
-    }
-    firebase.database().ref('venta').push(datos)
+  addArticlesSaled ({ commit, rootState }, payload) {
+    console.log(payload)
+    const collectionRef = rootState.db.collection('venta')
+    collectionRef.add(payload)
   },
-  getInventary ({ commit }) {
-    const node = 'inventario'
-    firebase.database().ref(node).once('value').then(data => {
-      const items = []
-      const datos = data.val()
-      for (let key in datos) {
+  getInventary ({ commit, rootState }) {
+    const items = []
+    let collectionRef = rootState.db.collection('inventario')
+    collectionRef.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const datos = doc.data()
         items.push({
-          idArticulo: key,
-          nombre: datos[key].nombre,
-          cantidad: datos[key].cantidad,
-          costoUnidad: datos[key].costoUnidad,
-          precioReferencia: datos[key].precioReferencia,
-          tipoProducto: datos[key].tipoProducto
+          idArticulo: doc.id,
+          nombre: datos.product.nombre,
+          cantidad: datos.product.cantidad,
+          costoUnidad: datos.product.costoUnidad,
+          precioVenta: datos.product.precioVenta,
+          tipoProducto: datos.product.tipoProducto,
+          items: datos.product.items
         })
-      }
+      })
       commit('showInventary', items)
       // console.log(items)
     })
     .catch(error => {
-      console.log(error)
+      throw new Error(error)
+    })
+  },
+  updateProduct ({ rootState }, payload) {
+    let items
+    payload.map((product) => {
+      items = {
+        cantidad: product.cantidad,
+        key: product.idArticulo
+      }
+      const collectionRef = rootState.db.collection('inventario')
+      collectionRef.doc(items.key).update({ 'product.cantidad': items.cantidad })
     })
   }
 }
@@ -52,6 +57,7 @@ const mutations = {
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

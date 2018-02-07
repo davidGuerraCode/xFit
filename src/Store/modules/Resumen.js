@@ -21,7 +21,7 @@ const actions = {
   getResumen ({ commit }) {
     let fechaActual = moment().format('YYYY-MM-DD')
     // console.log(fechaActual)
-    firebase.database().ref('venta').orderByChild('fechaVenta').equalTo(fechaActual).once('value').then(data => {
+    firebase.database().ref('ingreso/venta/producto').orderByChild('fechaVenta').equalTo(fechaActual).once('value').then(data => {
       const items = []
       const datos = data.val()
 
@@ -39,9 +39,9 @@ const actions = {
   },
   getResumenAyer ({ commit }) {
     let fechaAyer = moment().subtract(1, 'days').format('YYYY-MM-DD')
-    let fechaActual = moment().format('YYYY-MM-DD')
+    // let fechaActual = moment().format('YYYY-MM-DD')
     // console.log(fechaActual)
-    firebase.database().ref('venta').orderByChild('fechaVenta').startAt(fechaAyer).endAt(fechaActual).once('value').then(data => {
+    firebase.database().ref('ingreso/venta/producto').orderByChild('fechaVenta').equalTo(fechaAyer).once('value').then(data => {
       const items = []
       const datos = data.val()
 
@@ -62,7 +62,7 @@ const actions = {
     let fechaWeekAgo = moment().subtract(7, 'days').format('YYYY-MM-DD')
     let fechaActual = moment().format('YYYY-MM-DD')
     // console.log(fechaActual)
-    firebase.database().ref('venta').orderByChild('fechaVenta').startAt(fechaWeekAgo).endAt(fechaActual).once('value').then(data => {
+    firebase.database().ref('ingreso/venta/producto').orderByChild('fechaVenta').startAt(fechaWeekAgo).endAt(fechaActual).once('value').then(data => {
       const items = []
       const datos = data.val()
 
@@ -83,7 +83,7 @@ const actions = {
     let fechaMonthAgo = moment().subtract(1, 'months').format('YYYY-MM-DD')
     let fechaActual = moment().format('YYYY-MM-DD')
     // console.log(fechaMonthAgo)
-    firebase.database().ref('venta').orderByChild('fechaVenta').startAt(fechaMonthAgo).endAt(fechaActual).once('value').then(data => {
+    firebase.database().ref('ingreso/venta/producto').orderByChild('fechaVenta').startAt(fechaMonthAgo).endAt(fechaActual).once('value').then(data => {
       const items = []
       const datos = data.val()
 

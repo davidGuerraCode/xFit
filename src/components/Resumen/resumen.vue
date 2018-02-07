@@ -2,31 +2,31 @@
   v-content
     v-container(fluid)
       v-layout(justify-space-between)
-        v-flex(xs9 class="mr-2")
-          v-card(color="cyan darken-1")
+        v-flex(xs9 class="mr-2" d-flex)
+          v-card(color="white")
             v-card-title
-              h3(class="white--text") Resumen
+              h3(class="light-blue--text") Resumen
               v-spacer
               v-menu(bottom left class="pb-4")
                 v-btn(icon slot="activator" dark)
                   v-icon more_vert
             v-layout(row)
               v-flex(xs3)
-                p(class="white--text text-xs-center") Hoy
-                h4(class="white--text text-xs-center") {{ cantidadHoy | total }}Bs
+                p(class="grey--text text--darken-1 text-xs-center") Hoy
+                h5(class="grey--text text--darken-2 text-xs-center") {{ cantidadHoy | total }}Bs
               v-flex(xs3)
-                p(class="white--text text-xs-center") Ayer
-                h4(class="white--text text-xs-center") {{ cantidadAyer | total }}Bs
+                p(class="grey--text text--darken-1 text-xs-center") Ayer
+                h5(class="grey--text text--darken-2 text-xs-center") {{ cantidadAyer | total }}Bs
               v-flex(xs3)
-                p(class="white--text text-xs-center") Últimos 7 dias
-                h4(class="white--text text-xs-center") {{ cantidadHaceUnaSemana | total }}Bs
+                p(class="grey--text text--darken-1 text-xs-center") Últimos 7 dias
+                h5(class="grey--text text--darken-2 text-xs-center") {{ cantidadHaceUnaSemana | total }}Bs
               v-flex(xs3)
-                p(class="white--text text-xs-center") Este mes
-                h4(class="white--text text-xs-center") {{ cantidadHaceUnMes | total }}Bs
+                p(class="grey--text text--darken-1 text-xs-center") Este mes
+                h5(class="grey--text text--darken-2 text-xs-center") {{ cantidadHaceUnMes | total }}Bs
         v-flex(xs3 d-flex)
-          v-card(color="cyan darken-1")
+          v-card(color="white")
             v-card-title
-              h3(class="white--text text-xs-center") Balance
+              h3(class="light-blue--text text-xs-center") Balance
               v-spacer
               v-menu(bottom left class="pb-4")
                 v-btn(icon slot="activator" dark )
@@ -63,7 +63,10 @@ export default {
       for (let item in val) {
         resultado += val[item].totalPagar
       }
-      return parseFloat(resultado)
+      const numberWithDots = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+      }
+      return numberWithDots(resultado)
     }
   },
   created () {

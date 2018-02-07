@@ -8,6 +8,7 @@ import addExpenses from '@/components/Expenses/addExpenses.vue'
 import Expenses from '@/components/Expenses/Expenses.vue'
 import Statistics from '@/components/Statistics/Statistics.vue'
 import Sales from '@/components/Sales/Sale.vue'
+import incomeProduct from '@/components/Income/incomeProduct.vue'
 
 Vue.use(Router)
 
@@ -25,7 +26,8 @@ export default new Router({
         { path: '/addExpenses', component: addExpenses },
         { path: '/Expenses', component: Expenses },
         { path: '/Statistics', component: Statistics },
-        { path: '/Sales', component: Sales }
+        { path: '/Sales', component: Sales },
+        { path: '/incomeProduct', component: incomeProduct }
       ]
     }
   ]
