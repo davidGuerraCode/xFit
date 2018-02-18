@@ -4,31 +4,32 @@ v-content
     v-layout(justify-space-between)
       v-layout(align-center)
         v-flex(md3)
-          h3(class="light-blue--text") Estadísticas
+          div(class="light-blue--text headline") Estadísticas
       v-layout(justify-start)
         v-flex(md4)
           v-card()
             div(v-if="showChart" class="text-md-center light-blue--text pa-2")
               div(class="headline") Ingresos:
-              h6(class="mt-2") {{ incomes }}
+              h2(class="mt-2 title grey--text text--darken-2") {{ incomes }}
         v-flex(md4)
           v-card()
             div(class="text-md-center light-blue--text pa-2")
               div(class="headline") Gastos:
-              h6(class="mt-2") 3.000.000
+              h2(class="mt-2 title grey--text text--darken-2") 3.000.000
         v-flex(md5)
           v-card(class="mr-1")
             div(class="text-md-center light-blue--text pa-2")
               div(class="headline") Ganancias:
-              h6(class="mt-2") 1.000.000
+              h2(class="mt-2 title grey--text text--darken-2") 1.000.000
     v-layout(row)
       v-flex(xs12)
         v-card(v-if="showChart" class="mt-3 pa-2")
-          chartStatistic(
-            :chart-data= "dataCollection"
-            :options="{responsive: true, maintainAspectRatio: false}"
-            :height="500"
-          )
+          v-container(fluid grid-list-lg)
+            chartStatistic(
+              :chart-data= "dataCollection"
+              :options="{responsive: true, maintainAspectRatio: false}"
+              :height="500"
+            )
     v-layout(justify-center)
       v-flex(md3)
         v-card(class="pa-2 mt-3")
@@ -56,7 +57,7 @@ v-content
               autosave
               no-title
               scrollable actions)
-              template(scope="{ save, cancel }")
+              template(slot-scope="{ save, cancel }")
                 v-card-actions
                   v-btn(flat color="error" @click.native="cancel()") Cancelar
                   v-btn(flat color="primary" @click.native="save()") Guardar
@@ -86,7 +87,7 @@ v-content
               autosave
               no-title
               scrollable actions)
-              template(scope="{ save, cancel }")
+              template(slot-scope="{ save, cancel }")
                 v-card-actions
                   v-btn(flat color="error" @click.native="cancel()") Cancelar
                   v-btn(flat color="primary" @click.native="save()") Guardar

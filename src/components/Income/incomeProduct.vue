@@ -19,7 +19,7 @@
           :search="search"
           expand
         )
-          template(slot="items" scope="props")
+          template(slot="items" slot-scope="props")
             td(class="text-sm-center")
               v-edit-dialog(
                 @open="tmp = props.item.cliente"
@@ -69,7 +69,7 @@
                 autosave
                 no-title
                 scrollable actions)
-                template(scope="{ save, cancel }")
+                template(slot-scope="{ save, cancel }")
                   v-card-actions
                     v-btn(flat color="error" @click.native="cancel()") Cancelar
                     v-btn(flat color="primary" @click.native="save()") Guardar
@@ -99,7 +99,7 @@
                 autosave
                 no-title
                 scrollable actions)
-                template(scope="{ save, cancel }")
+                template(slot-scope="{ save, cancel }")
                   v-card-actions
                     v-btn(flat color="error" @click.native="cancel()") Cancelar
                     v-btn(flat color="primary" @click.native="save()") Guardar

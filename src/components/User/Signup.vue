@@ -1,0 +1,108 @@
+<template lang="pug">
+v-app
+  v-content(class="gradient")
+    v-container()
+      v-layout(row justify-center align-center)
+        v-flex(xs4)
+          v-card(class="blue-grey darken-3")
+            v-container
+              v-card-media(
+                src="/static/img/LogoAnastasisLogin.png"
+                height="220"
+                contain
+              )
+        v-flex(xs4)
+          v-card(class="blue-grey darken-2 elevation-4")
+            v-container
+              v-card-media(
+                src="/static/img/LogoAtreusLogin.png"
+                height="150"
+                contain
+              )
+              h4(class="white--text text-xs-center") Registrate
+              v-form(
+                v-model="valid"
+              )
+                v-text-field(
+                  name="correo"
+                  label="Correo"
+                  prepend-icon="mail"
+                  type="email"
+                  class="mb-3"
+                  dark
+                  v-model="user.name"
+                  :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
+                  required
+                )
+                v-text-field(
+                  name="contraseña"
+                  label="Contraseña"
+                  dark
+                  prepend-icon="lock"
+                  type="password"
+                  v-model="user.password"
+                  :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
+                  required
+                )
+                v-text-field(
+                  name="repetirContraseña"
+                  label="Confirmar Contraseña"
+                  prepend-icon="lock"
+                  type="password"
+                  dark
+                  class="mt-3"
+                  v-model="user.confirmPassword"
+                  :rules="[comparePasswords]"
+                )
+            v-layout(row justify-center pb-3)
+              v-btn(
+                class="white--text teal accent-4"
+              ) Registrar
+      v-footer(
+        class="pa-3 teal accent-4"
+        fixed
+        app
+      )
+        v-layout(row justify-center)
+          p(class="white--text ma-0") Desarrollado por ÁtlasisDev © | 2018
+</template>
+
+<script>
+export default {
+  name: 'signup',
+  data () {
+    return {
+      valid: true,
+      user: {
+        name: '',
+        password: '',
+        confirmPasword: ''
+      }
+    }
+  },
+  computed: {
+    comparePasswords () {
+      return this.user.password !== this.user.confirmPasword ? ('Las contraseñas no coinciden!') : true
+    }
+  },
+  methods: {
+    signUp () {
+      // Menejar el registro con Vuex
+      console.log(this.user)
+    }
+  }
+}
+</script>
+<style scoped>
+.gradient {
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  background: linear-gradient(to right, #16222A, #3A6073);
+  min-height: 100vh;
+}
+.media {
+  position: relative;
+  left: 50%;
+}
+</style>

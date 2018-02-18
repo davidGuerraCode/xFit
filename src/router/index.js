@@ -9,6 +9,8 @@ import Expenses from '@/components/Expenses/Expenses.vue'
 import Statistics from '@/components/Statistics/Statistics.vue'
 import Sales from '@/components/Sales/Sale.vue'
 import incomeProduct from '@/components/Income/incomeProduct.vue'
+import Signin from '@/components/User/Signin.vue'
+import Signup from '@/components/User/Signup.vue'
 
 Vue.use(Router)
 
@@ -29,6 +31,16 @@ export default new Router({
         { path: '/Sales', component: Sales },
         { path: '/incomeProduct', component: incomeProduct }
       ]
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
     }
   ]
 })

@@ -9,6 +9,7 @@ import resumen from './modules/Resumen.js'
 import passive from './modules/Passive.js'
 import incomes from './modules/Income.js'
 import statistics from './modules/statistics'
+import user from './modules/User'
 
 Vue.use(Vuex)
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     resumen,
     passive,
     incomes,
-    statistics
+    statistics,
+    user
   }
 })

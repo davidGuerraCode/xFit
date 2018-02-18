@@ -13,7 +13,7 @@ v-content
               hide-actions
               class="elevation-1 text-md-right"
             )
-              template(slot="items" scope="props")
+              template(slot="items" slot-scope="props")
                 td {{props.item.tipoGasto}}
                 td(class="") {{props.item.subClasificacion}}
                 td(class="") {{props.item.cantidad}}

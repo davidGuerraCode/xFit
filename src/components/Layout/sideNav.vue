@@ -17,14 +17,15 @@
               v-subheader(v-if="item.heading") {{item.heading}}
             v-flex(x6 class="text-xs-center")
               a(href="#!" class="body-2 black-text") EDIT
-          v-list-group(v-else-if="item.children" v-model="item.model" no-action)
-            v-list-tile(slot="item")
-              v-list-tile-action()
-                v-icon(class="teal--text text--lighten-1" ) {{ item.icon2 }}
+          v-list-group(
+            v-else-if="item.children"
+            v-model="item.model"
+            active-class="teal--text text-accent-4"
+            :prepend-icon="item.icon2"
+          )
+            v-list-tile(slot="activator")
               v-list-tile-content
                 v-list-tile-title(class="blue-grey--text text--lighten-4") {{ item.text }}
-              v-list-tile-action()
-                v-icon(class="blue-grey--text text--lighten-4") {{ item.model ? item.icon : item['icon-alt'] }}
             v-list-tile(v-for="(child, i) in item.children" :key="i"  :to="child.link")
               v-list-tile-action(v-if="child.icon")
                 v-icon() {{ child.icon }}
@@ -32,7 +33,7 @@
                 v-list-tile-title {{ child.text }}
           v-list-tile(v-else  :to="item.link")
             v-list-tile-action
-              v-icon(class="teal--text text--lighten-1") {{ item.icon }}
+              v-icon(class="") {{ item.icon }}
             v-list-tile-content
               v-list-tile-title(class="blue-grey--text text--lighten-4 hola") {{ item.text }}
     v-toolbar(class="blue-grey darken-3 white--text" clipped-left app dense fixed)

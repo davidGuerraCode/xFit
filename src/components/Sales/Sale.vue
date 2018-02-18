@@ -63,52 +63,58 @@ v-content
     v-layout(row justify-space-between )
       v-flex(xs8 class="mr-3")
         template
-          v-tabs(dark v-model="active")
-            v-tabs-bar(class="light-blue")
-              v-tabs-item(
-                v-for="tab in tabs"
-                :key="tab"
-                :href="'#' + tab"
-                ripple
-              )
-                div(@click="itemMarcado(tab, $event)" style="width: 100% height: 100%" class="pt-2")
-                  | {{ tab }}
-              v-tabs-slider(class="teal accent-3")
-            v-tabs-content(
+          v-tabs(
+            dark
+            v-model="active"
+            color="light-blue"
+            show-arrows
+            fixed-tabs
+          )
+            v-tabs-slider(class="teal accent-3")
+            v-tab(
               v-for="tab in tabs"
               :key="tab"
-              :id="tab"
+              :href="'#' + tab"
+              ripple
             )
-              v-card(flat)
-                v-card-text
-                  v-data-table(
-                      v-bind:headers="headers"
-                      :items="items"
-                      hide-actions
-                      item-key="nombre"
-                      v-bind:search="search"
-                      v-model="selected"
-                      selected-key="nombre"
-                      class="elevation-1"
-                      v-if="tab == filtrarItem")
-                      template(slot="items" scope="props")
-                        tr(v-if="props.item.tipoProducto == tab")
-                          td
-                            v-checkbox(
-                              color="light-blue"
-                              hide-details
-                              :disabled="isEqualsToCero(props.item.cantidad)"
-                              v-model="props.selected"
-                            )
-                          td(class="text-xs-right") {{props.item.nombre}}
-                          td(class="text-xs-right") {{props.item.cantidad}}
-                          td(class="text-xs-right") {{props.item.precioVenta}}
-                          td(class="text-xs-right px-2")
-                            v-btn(flat id="menos" :disabled="isEqualsToCero(props.item.cantidad, props.item.items)" class="ma-0" icon color="light-blue" v-on:click="incrementArticulo(items, props.item.idArticulo,'decrement')")
-                              v-icon() remove
-                            span {{ props.item.items }}
-                            v-btn(flat icon color="light-blue" :disabled="isEqualsToCero(props.item.cantidad)" class="ma-0" v-on:click="incrementArticulo(items, props.item.idArticulo,'increment')")
-                              v-icon() add
+              div(@click="itemMarcado(tab, $event)" style="width: 100% height: 100%" class="pt-2")
+                | {{ tab }}
+            v-tabs-items
+              v-tab-item(
+                v-for="tab in tabs"
+                :key="tab"
+                :id="tab"
+              )
+                v-card(flat)
+                  v-container(fluid grid-list-lg)
+                    v-data-table(
+                        v-bind:headers="headers"
+                        :items="items"
+                        hide-actions
+                        item-key="nombre"
+                        v-bind:search="search"
+                        v-model="selected"
+                        selected-key="nombre"
+                        class="elevation-1"
+                        v-if="tab == filtrarItem")
+                        template(slot="items" slot-scope="props")
+                          tr(v-if="props.item.tipoProducto == tab")
+                            td
+                              v-checkbox(
+                                color="light-blue"
+                                hide-details
+                                :disabled="isEqualsToCero(props.item.cantidad)"
+                                v-model="props.selected"
+                              )
+                            td(class="text-xs-right") {{props.item.nombre}}
+                            td(class="text-xs-right") {{props.item.cantidad}}
+                            td(class="text-xs-right") {{props.item.precioVenta}}
+                            td(class="text-xs-right px-2")
+                              v-btn(flat id="menos" :disabled="isEqualsToCero(props.item.cantidad, props.item.items)" class="ma-0" icon color="light-blue" v-on:click="incrementArticulo(items, props.item.idArticulo,'decrement')")
+                                v-icon() remove
+                              span {{ props.item.items }}
+                              v-btn(flat icon color="light-blue" :disabled="isEqualsToCero(props.item.cantidad)" class="ma-0" v-on:click="incrementArticulo(items, props.item.idArticulo,'increment')")
+                                v-icon() add
       v-flex(xs4)
         v-card
           v-toolbar(class="light-blue" dark dense)
@@ -180,7 +186,7 @@ v-content
                         scrollable
                         actions
                       )
-                        template(scope="{ save, cancel }")
+                        template(slote-scope="{ save, cancel }")
                           v-card-actions
                             v-spacer
                             v-btn(flat color="error" @click="cancel") Cancel

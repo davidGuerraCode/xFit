@@ -4,10 +4,10 @@ v-content
     v-layout(row-sm column-xs wrap)
       v-flex(xs12)
         v-card()
-          v-card-title(primary-title)
-            div
-              h3(class="light-blue--text") Nuevo Producto
-            v-layout(row column-xs wrap)
+          v-container(fluid grid-list-lg)
+            v-card-title(primary-title)
+              div(class="light-blue--text headline") Nuevo Producto
+            v-layout(row-sm column-xs wrap)
               v-flex(xs12)
                 v-form(
                   v-model="valid"
@@ -67,6 +67,7 @@ v-content
                       v-menu(
                         lazy
                         :close-on-content-click="false"
+                        ref="menu"
                         v-model="menu"
                         transition="scale-transition"
                         offset-y
@@ -85,18 +86,15 @@ v-content
                         )
                         v-date-picker(
                           v-model="Inventario.fechaCompra"
-                          @input="Inventario.fechaCompra = formatDate($event)"
                           no-title
-                          :allowed-dates="allowedDates"
+                          @input="Inventario.fechaCompra = formatDate($event)"
                           autosave
                           scrollable
                           actions
                         )
-                          template(scope="{ save, cancel }")
-                            v-card-actions
-                              v-spacer
-                              v-btn(flat color="error" @click="cancel") Cancel
-                              v-btn(flat color="primary" @click="save") OK
+                          v-spacer
+                          v-btn(flat color="error" @click="menu = false") Cancel
+                          v-btn(flat color="primary" @click="$refs.menu.save(date)") OK
                   v-layout(row-sm column-xs justify-space-between wrap)
                     v-flex(md4 sm4 xs10)
                       v-select(
@@ -164,7 +162,7 @@ v-content
 </template>
 
 <script>
-import * as moment from 'moment'
+// import * as moment from 'moment'
 import { VMoney } from 'v-money'
 
 export default {
@@ -173,13 +171,13 @@ export default {
       e1: null,
       e3: null,
       valid: true,
+      date: null,
       menu: false,
       snackbar: false,
       color: 'teal accent-4',
       mode: '',
       timeout: 4000,
       text: `El producto fué agregado con exito al Inventario!`,
-      allowedDates: [ moment().format('YYYY-MM-DD') ],
       items: [
         { text: 'categoria 1' }
       ],
@@ -211,6 +209,10 @@ export default {
   },
   directives: { money: VMoney },
   methods: {
+    allowedDates () {
+      const date = new Date().toISOString()
+      return date
+    },
     calculo: function (precioCompra, cantidad) {
       if (precioCompra === '' && cantidad === '') {
         precioCompra = ''
@@ -231,7 +233,7 @@ export default {
       }
 
       const [year, month, day] = date.split('-')
-      return `${day}/${month}/${year}`
+      return `${day}-${month}-${year}`
     },
     addProduct () {
       let product = {

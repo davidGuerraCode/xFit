@@ -3,56 +3,56 @@ v-content
   v-container(fluid)
     v-layout(justify-center)
       v-card
-        v-card-title(primary-title)
-          div
-            h3(class="light-blue--text") Productos
-          v-spacer
-          v-text-field(
-                append-icon="search"
-                label="Buscar"
-                single-line
-                hide-details
-                v-model="search"
-              )
-        div(class="card-content" id="listaProductos")
-          v-data-table(
-            v-bind:headers="headers"
-            :items="items"
-            :rows-per-page-items= "rows"
-            :search="search"
-            class="elevation-1 text-md-right"
-          )
-            template(slot="items" scope="props")
-              td(class="text-xs-center")
-                v-edit-dialog(
-                @open="tmp = props.item.cliente"
-                @save="props.item.nombre = tmp || props.item.nombre"
-                large
-                lazy
-                )
-                  div {{ props.item.nombre }}
-                  div(slot="input" class="mt-3 title") Actualizar Nombre
-                  v-text-field(
-                    slot="input"
-                    label="Edit"
-                    v-model="props.item.nombre"
-                    single-line
-                    counter
-                    :rules="[max25Chars]"
+        v-container(fluid grid-list-lg)
+          v-card-title(primary-title)
+            div(class="headline light-blue--text") Productos
+            v-spacer
+            v-text-field(
+              append-icon="search"
+              label="Buscar"
+              single-line
+              hide-details
+              v-model="search"
+            )
+          div(class="card-content" id="listaProductos")
+            v-data-table(
+              v-bind:headers="headers"
+              :items="items"
+              :rows-per-page-items= "rows"
+              :search="search"
+              class="elevation-1 text-md-right"
+            )
+              template(slot="items" slot-scope="props")
+                td(class="text-xs-center")
+                  v-edit-dialog(
+                  @open="tmp = props.item.cliente"
+                  @save="props.item.nombre = tmp || props.item.nombre"
+                  large
+                  lazy
                   )
-              td(class="") {{ props.item.cantidad }}
-              td(class="") {{ props.item.costoUnidad }}
-              td(class="") {{ props.item.proveedor }}
-              td(class="") {{ props.item.precioVenta }}
-              td(class="") {{ props.item.fechaCompra }}
-              td(class="") {{ props.item.tipoProducto }}
-              td(class="text-xs-center px-2")
-                v-btn(flat icon color="light-blue" class="ma-0"
-                @click.stop="activarVentanaRemarcaje(props.item.id, props.item)")
-                  v-icon() edit
-                v-btn(flat icon color="light-blue" class="ma-0" 
-                @click.stop="activarVentana(props.item.id, props.item)")
-                  v-icon() add_shopping_cart
+                    div {{ props.item.nombre }}
+                    div(slot="input" class="mt-3 title") Actualizar Nombre
+                    v-text-field(
+                      slot="input"
+                      label="Edit"
+                      v-model="props.item.nombre"
+                      single-line
+                      counter
+                      :rules="[max25Chars]"
+                    )
+                td(class="") {{ props.item.cantidad }}
+                td(class="") {{ props.item.costoUnidad }}
+                td(class="") {{ props.item.proveedor }}
+                td(class="") {{ props.item.precioVenta }}
+                td(class="") {{ props.item.fechaCompra }}
+                td(class="") {{ props.item.tipoProducto }}
+                td(class="text-xs-center px-2")
+                  v-btn(flat icon color="light-blue" class="ma-0"
+                  @click.stop="activarVentanaRemarcaje(props.item.id, props.item)")
+                    v-icon() edit
+                  v-btn(flat icon color="light-blue" class="ma-0" 
+                  @click.stop="activarVentana(props.item.id, props.item)")
+                    v-icon() add_shopping_cart
     //- Ventana Modal Modificar Inventario
     v-layout(row justify-center)
       v-dialog(v-model="dialog" persistent max-width="750px")

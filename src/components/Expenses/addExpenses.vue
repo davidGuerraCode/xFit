@@ -72,7 +72,7 @@ v-content
                       autosave
                       no-title
                       scrollable actions)
-                      template(scope="{ save, cancel }")
+                      template(slot-scope="{ save, cancel }")
                         v-card-actions
                           v-btn(flat color="error" @click.native="cancel()") Cancelar
                           v-btn(flat color="primary" @click.native="save()") Guardar

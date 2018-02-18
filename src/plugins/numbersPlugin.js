@@ -31,7 +31,6 @@ const moneyPlugin = {
       numberWithDots: (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'),
       formatNumber: (number = '') => parseFloat(number.toString().split('.').join('')),
       totalSalePrice: function (salePrice, item) {
-        console.log(salePrice)
         let price = this.formatNumber(salePrice)
         let items = this.formatNumber(item)
 
