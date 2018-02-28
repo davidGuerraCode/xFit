@@ -2,7 +2,7 @@
   v-content
     v-container(fluid)
       v-card(v-if="showTable")
-        v-card-title 
+        v-card-title
           h4(class="light-blue--text") Tabla de Ingresos
           v-spacer
           v-text-field(
@@ -112,6 +112,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'incomeProduct',
   data () {
     return {
       search: '',

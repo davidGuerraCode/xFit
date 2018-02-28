@@ -100,6 +100,7 @@ import { mapGetters } from 'vuex'
 import chartStatistic from '@/components/Charts/statisticsChart.js'
 
 export default {
+  name: 'statistics',
   components: { chartStatistic },
   data () {
     return {

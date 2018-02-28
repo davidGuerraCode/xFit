@@ -19,9 +19,12 @@ v-app
                 height="150"
                 contain
               )
-              h4(class="white--text text-xs-center") Inicia Sesión
+              h4(class="white--text text-xs-center headline") Inicia Sesión
               v-form(
                 v-model="valid"
+                @submit.prevent="onSignIn"
+                ref="form"
+                lazy-validation
               )
                 v-text-field(
                   name="correo"
@@ -30,7 +33,7 @@ v-app
                   prepend-icon="mail"
                   type="email"
                   class="mb-3"
-                  v-model="user.name"
+                  v-model="userData.email"
                   :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
                   required
                 )
@@ -41,13 +44,15 @@ v-app
                   type="password"
                   dark
                   class="input-group"
-                  v-model="user.password"
+                  v-model="userData.password"
                   :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
                   required
                 )
             v-layout(row justify-center pb-3)
               v-btn(
                 class="white--text teal accent-4"
+                @click="submit"
+                :disabled="!valid"
               ) Ingresar
       v-footer(
         class="pa-3 teal accent-4"
@@ -64,10 +69,21 @@ export default {
   data () {
     return {
       valid: true,
-      user: {
-        name: '',
+      userData: {
+        email: '',
         password: ''
       }
+    }
+  },
+  methods: {
+    submit () {
+      if (this.$refs.form.validate()) {
+        this.onSignIn()
+      }
+    },
+    onSignIn () {
+      this.$store.dispatch('user/signUserIn', this.userData)
+        .then(() => this.$router.push('/'))
     }
   }
 }

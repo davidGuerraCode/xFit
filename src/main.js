@@ -4,6 +4,7 @@ import App from './App'
 import router from './router'
 import store from './Store'
 import moment from 'moment'
+import firebase from 'firebase'
 
 import numbersPlugin from '@/plugins/numbersPlugin.js'
 // import Chart from '@/components/Charts/statisticsChart.js'
@@ -20,15 +21,11 @@ new Vue({
   el: '#app',
   store,
   router,
-  render: h => h(App)
-  /* created () {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyAlGu2jVsYdilTTFI8o9TYs6oDGwiesYVI',
-      authDomain: 'atreusfit.firebaseapp.com',
-      databaseURL: 'https://atreusfit.firebaseio.com',
-      projectId: 'atreusfit',
-      storageBucket: 'atreusfit.appspot.com',
-      messagingSenderId: '310643520107'
+  render: h => h(App),
+  created () {
+    // Mantener la autorización.
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) this.$store.dispatch('user/autoSignIn', user)
     })
-  } */
+  }
 })

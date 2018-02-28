@@ -94,6 +94,7 @@ v-content
 
 <script>
 export default {
+  name: 'addExpenses',
   data () {
     return {
       expensesType: null,

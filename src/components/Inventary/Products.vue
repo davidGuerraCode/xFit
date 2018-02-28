@@ -50,7 +50,7 @@ v-content
                   v-btn(flat icon color="light-blue" class="ma-0"
                   @click.stop="activarVentanaRemarcaje(props.item.id, props.item)")
                     v-icon() edit
-                  v-btn(flat icon color="light-blue" class="ma-0" 
+                  v-btn(flat icon color="light-blue" class="ma-0"
                   @click.stop="activarVentana(props.item.id, props.item)")
                     v-icon() add_shopping_cart
     //- Ventana Modal Modificar Inventario
@@ -171,6 +171,7 @@ v-content
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'products',
   data () {
     return {
       products: {},

@@ -1,10 +1,14 @@
 <template lang="pug">
-div
-  router-view
+v-app
+  layout(v-if="userIsAuthenticated")
+  main
+    router-view
 </template>
 
 <script>
 import layout from '@/components/Layout/Master.vue'
+// import user from './Store/modules/User'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { layout },
@@ -14,6 +18,14 @@ export default {
   },
   created () {
     console.log(this.$store.state.db)
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/currentUser'
+    }),
+    userIsAuthenticated () {
+      return this.user !== null && this.user !== undefined
+    }
   }
 }
 </script>

@@ -19,44 +19,50 @@ v-app
                 height="150"
                 contain
               )
-              h4(class="white--text text-xs-center") Registrate
+              h4(class="white--text text-xs-center headline") Registrate
               v-form(
+                @submit.prevent="onSignUp"
                 v-model="valid"
+                ref="form"
+                lazy-validation
               )
                 v-text-field(
                   name="correo"
                   label="Correo"
-                  prepend-icon="mail"
+                  prepend-icon="email"
                   type="email"
                   class="mb-3"
                   dark
-                  v-model="user.name"
-                  :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
+                  v-model="userData.email"
+                  :rules="emailRules"
                   required
                 )
                 v-text-field(
                   name="contraseña"
                   label="Contraseña"
-                  dark
                   prepend-icon="lock"
                   type="password"
-                  v-model="user.password"
+                  v-model="userData.password"
                   :rules="[(v) => !!v || 'Este campo no puede estar vacío']"
                   required
+                  dark
                 )
                 v-text-field(
                   name="repetirContraseña"
                   label="Confirmar Contraseña"
                   prepend-icon="lock"
                   type="password"
-                  dark
                   class="mt-3"
-                  v-model="user.confirmPassword"
                   :rules="[comparePasswords]"
+                  v-model="confirmPassword"
+                  dark
+
                 )
             v-layout(row justify-center pb-3)
               v-btn(
                 class="white--text teal accent-4"
+                @click="submit"
+                :disabled="!valid"
               ) Registrar
       v-footer(
         class="pa-3 teal accent-4"
@@ -68,27 +74,46 @@ v-app
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'signup',
   data () {
     return {
       valid: true,
-      user: {
-        name: '',
-        password: '',
-        confirmPasword: ''
-      }
+      userData: {
+        email: '',
+        password: ''
+      },
+      confirmPassword: '',
+      emailRules: [
+        v => !!v || 'El correo es requerido!',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Debes ingresar un correo válido!'
+      ]
     }
   },
   computed: {
+    ...mapGetters({
+      user: 'user/currentUser'
+    }),
     comparePasswords () {
-      return this.user.password !== this.user.confirmPasword ? ('Las contraseñas no coinciden!') : true
+      return (this.userData.password !== this.confirmPassword) ? 'Las contraseñas no coinciden!' : true
     }
   },
+  /* watch: {
+    user (value) {
+      if (value !== null && value !== undefined) this.$router.push('/')
+    }
+  }, */
   methods: {
-    signUp () {
-      // Menejar el registro con Vuex
-      console.log(this.user)
+    submit () {
+      if (this.$refs.form.validate()) {
+        this.onSignUp()
+      }
+    },
+    onSignUp () {
+      this.$store.dispatch('user/signUserUp', this.userData)
+        .then(() => this.$router.push('/'))
     }
   }
 }

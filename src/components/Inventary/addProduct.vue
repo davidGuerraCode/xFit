@@ -34,7 +34,7 @@ v-content
                         suffix="Bs"
                         v-model.lazy="Inventario.precioCompra"
                         v-money="money"
-                        
+
                       )
                     v-flex(md3 sm3 xs10)
                       v-text-field(
@@ -166,6 +166,7 @@ v-content
 import { VMoney } from 'v-money'
 
 export default {
+  name: 'addProduct',
   data () {
     return {
       e1: null,

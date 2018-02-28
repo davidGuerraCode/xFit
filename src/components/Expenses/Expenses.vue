@@ -23,8 +23,8 @@ v-content
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 export default {
+  name: 'expenses',
   data () {
     return {
       headers: [{

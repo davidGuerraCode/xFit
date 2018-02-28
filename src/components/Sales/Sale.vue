@@ -199,6 +199,7 @@ import * as moment from 'moment'
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'sales',
   data () {
     return {
       valid: true,
